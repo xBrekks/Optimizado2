@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - Pit Stop Performance</title>
+    <meta name="description" content="Conoce la misión, visión, valores y la historia de Pit Stop Performance, tu taller mecánico de confianza desde 1995.">
+
+    <!-- Fuentes: preconnect + link (en lugar de @import en el CSS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Nunito:wght@400;600&display=swap">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="preload" href="img/quienes_somos.webp" as="image">
+</head>
+<body>
+
+    <!-- Menú Sticky -->
+    <header class="header sticky">
+        <button class="menu-toggle" id="btnMenu" aria-label="Abrir menú">☰</button>
+        <div class="header-brand">
+            <img src="img/logo.webp" alt="Pit Stop Performance" class="header-logo" width="45" height="45">
+            <span class="header-title">PIT STOP PERFORMANCE</span>
+        </div>
+
+        <!-- Navegación Escritorio -->
+        <nav class="navbar desktop-nav">
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html" class="activo">Nosotros</a></li>
+                <li aria-hidden="true"><a href="#" tabindex="-1"></a></li>
+                <li aria-hidden="true"><a href="#" tabindex="-1"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Capa de fondo borroso -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Menú Lateral Desplegable (Móvil) -->
+    <div class="mobile-menu-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <button class="close-btn" id="btnClose" aria-label="Cerrar menú">X</button>
+            <span>Menú</span>
+        </div>
+        <ul class="drawer-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="nosotros.html" class="activo">Nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+        <div class="drawer-footer">
+            <img src="img/logo.webp" alt="Pit Stop Performance" class="drawer-logo" width="120" height="120">
+        </div>
+    </div>
+
+    <!-- ==========================================
+         SECCIÓN NOSOTROS
+         ========================================== -->
+    <section class="nosotros-section">
+
+        <!-- 1. ¿Quiénes Somos? (queda arriba: sin lazy, con prioridad alta) -->
+        <div class="quienes-somos-img container animar-izquierda">
+            <img src="img/quienes_somos.webp" alt="¿Quiénes Somos en Pit Stop Performance?" class="img-fluida" width="1200" height="600" fetchpriority="high">
+        </div>
+
+        <!-- 2. Misión, Visión, Valores y Mascota -->
+        <div class="mvv-container container">
+            <div class="mvv-box animar-izquierda">
+                <h3>Misión</h3>
+                <p>Mantener tu motor en su máximo rendimiento con diagnósticos precisos y reparaciones eficientes, garantizando seguridad y potencia en cada kilómetro.</p>
+            </div>
+
+            <div class="mvv-center animar-arriba retraso-1">
+                <span class="sonrisas-text">¡Sonrisas en cada entrega!</span>
+                <div class="mascota-circle">
+                    <img src="img/mascota.webp" alt="Mascota Pit Stop" class="mascota-img" width="220" height="220" loading="lazy">
+                </div>
+                <div class="mvv-box valores-box">
+                    <h3>Valores</h3>
+                    <p>Honestidad, Velocidad, Precisión y Pasión.</p>
+                </div>
+            </div>
+
+            <div class="mvv-box animar-derecha retraso-2">
+                <h3>Visión</h3>
+                <p>Ser el taller mecánico de referencia a nivel nacional, reconocidos por nuestra innovación tecnológica, transparencia absoluta y atención inigualable.</p>
+            </div>
+        </div>
+
+        <!-- 3. Historia -->
+        <div class="historia-viewport animar-izquierda" id="historiaSeccion">
+            <div class="historia-grid container">
+
+                <!-- Imagen vertical con animación (Scrolltelling) -->
+                <div class="historia-img-container animar-scroll">
+                    <img src="img/1995.webp" alt="Historia Pit Stop" class="historia-vertical-img" id="imagenHistoria" width="400" height="533" loading="lazy">
+                </div>
+
+                <!-- Línea de tiempo horizontal con botones -->
+                <div class="historia-interactiva animar-scroll-right">
+                    <h2 class="section-title left-align">Nuestra Evolución</h2>
+
+                    <div class="timeline-window">
+                        <div class="timeline-horizontal" id="timelineSlider">
+                            <div class="timeline-step">
+                                <span class="year">1995</span>
+                                <p>Arrancan los motores. Fundamos nuestro primer taller en un pequeño garaje con una sola rampa y mucha pasión por la mecánica.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="year">2010</span>
+                                <p>Evolución técnica. Incorporamos escáneres computarizados y ampliamos nuestras instalaciones para dar servicio a más vehículos.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="year">2026</span>
+                                <p>Nace Pit Stop Performance. Nos renovamos con tecnología de punta y un equipo altamente certificado para el máximo rendimiento.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="historia-controles">
+                        <button class="btn-historia" id="btnAnterior">&lt; Anterior</button>
+                        <button class="btn-historia" id="btnSiguiente">Siguiente &gt;</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Redes y Contacto -->
+    <footer class="footer">
+        <div class="social-boxes">
+            <div class="social-box">FB</div>
+            <div class="social-box">TW</div>
+            <div class="social-box">IG</div>
+        </div>
+        <div class="contact-info">
+            <p><strong>Tel.</strong> 777-109-12-49</p>
+            <p><strong>Dir.</strong> Av. de los Temixco #123, Centro</p>
+            <p><strong>Correo.</strong> contacto@motoreros.com</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+</body>
+</html>
