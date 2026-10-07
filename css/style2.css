@@ -42,6 +42,19 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
+/* Imagen LCP: animación por CSS puro (no espera al JS).
+   Empieza en .01 y no en 0 porque Chrome ignora elementos con opacity:0 para el LCP */
+.quienes-somos-img.animar-izquierda {
+    opacity: 1;
+    transform: none;
+    animation: entrarIzq 0.8s ease-out both;
+}
+
+@keyframes entrarIzq {
+    from { opacity: 0.01; transform: translateX(-50px); }
+    to   { opacity: 1;    transform: none; }
+}
+
 /* --- 2. Misión, Visión, Valores --- */
 .mvv-container {
     display: flex;
@@ -62,7 +75,7 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-.mvv-box h3 {
+.mvv-box h2 {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 1.8rem;
     color: var(--amarillo-rb);
@@ -264,6 +277,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .quienes-somos-img.animar-izquierda {
+        animation: none;
+    }
+
     .historia-img-container,
     .historia-interactiva,
     .historia-vertical-img {

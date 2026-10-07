@@ -21,6 +21,7 @@
     --blanco:          #FFFFFF;   /* Texto principal */
     --blanco-suave:    #CCCCDD;   /* Texto párrafos */
     --gris-oscuro:     #55557A;   /* Texto terciario / copyright */
+    --rojo-texto:      #FF4D6A;   /* Rojo más claro para texto pequeño (contraste AA) */
     --fondo-body:      #1B1F3B;   /* Color base del body — CLAVE para el difuminado */
 }
 
@@ -247,7 +248,7 @@ body {
 }
 
 .contact-info strong {
-    color: var(--rojo-rb);
+    color: var(--rojo-texto);
     font-weight: 600;
 }
 
