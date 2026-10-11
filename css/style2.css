@@ -42,6 +42,19 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
+/* Imagen LCP: animación por CSS puro (no espera al JS).
+   Empieza en .01 y no en 0 porque Chrome ignora elementos con opacity:0 para el LCP */
+.quienes-somos-img.animar-izquierda {
+    opacity: 1;
+    transform: none;
+    animation: entrarIzq 0.8s ease-out both;
+}
+
+@keyframes entrarIzq {
+    from { opacity: 0.01; transform: translateX(-50px); }
+    to   { opacity: 1;    transform: none; }
+}
+
 /* --- 2. Misión, Visión, Valores --- */
 .mvv-container {
     display: flex;
@@ -62,7 +75,7 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-.mvv-box h3 {
+.mvv-box h2 {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 1.8rem;
     color: var(--amarillo-rb);
@@ -264,9 +277,478 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .quienes-somos-img.animar-izquierda {
+        animation: none;
+    }
+
     .historia-img-container,
     .historia-interactiva,
     .historia-vertical-img {
+        transition: none;
+    }
+}
+
+/* ============================================================
+   4. ORGANIGRAMA
+   ============================================================ */
+.organigrama-section {
+    background-color: var(--azul-profundo);
+    border-top: 1px solid var(--morado-borde);
+    padding: 80px 0 100px;
+}
+
+.organigrama-section .container {
+    max-width: 1400px;
+}
+
+.org-intro {
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto 50px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--blanco-suave);
+}
+
+.org-arbol,
+.org-arbol ul {
+    list-style: none;
+}
+
+.org-arbol {
+    --org-linea: rgba(232, 0, 45, 0.6);
+    --org-card: 200px;
+    --org-foto: 96px;
+    display: flex;
+    justify-content: center;
+}
+
+.org-arbol li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ── Tarjeta de persona ── */
+.persona {
+    position: relative;
+    z-index: 1;
+}
+
+.persona.abierto {
+    z-index: 30;
+}
+
+.persona-card {
+    position: relative;
+    display: block;
+    width: var(--org-card);
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--fondo-body);
+    border: 1px solid var(--morado-borde);
+    border-top: 3px solid var(--rojo-rb);
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+    color: var(--blanco);
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.persona-card:focus-visible {
+    outline: 3px solid var(--amarillo-rb);
+    outline-offset: 3px;
+}
+
+.persona-foto {
+    display: block;
+    padding: 14px 0 12px;
+}
+
+/* Foto en blanco y negro; a color con hover, foco o submenú abierto */
+.persona-foto img {
+    display: block;
+    width: var(--org-foto);
+    height: var(--org-foto);
+    margin: 0 auto;
+    object-fit: cover;
+    border: 3px solid var(--rojo-rb);
+    border-radius: 50%;
+    filter: grayscale(1);
+    transition: filter 0.35s ease;
+}
+
+.persona-card:focus-visible img,
+.persona-card[aria-expanded="true"] img {
+    filter: none;
+}
+
+/* Zona del puesto (nombre + puesto) */
+.persona-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 78px;
+    padding: 10px 6px 12px;
+    background-color: var(--azul-profundo);
+    border-top: 1px solid var(--morado-borde);
+}
+
+/* Sombreado rayado que aparece en hover (como en el boceto) */
+.persona-info::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(232, 0, 45, 0.55) 0 5px,
+        rgba(232, 0, 45, 0.28) 5px 10px
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.persona-card:focus-visible .persona-info::before,
+.persona-card[aria-expanded="true"] .persona-info::before {
+    opacity: 1;
+}
+
+.persona-nombre,
+.persona-puesto {
+    position: relative;
+    display: block;
+}
+
+.persona-nombre {
+    font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--blanco);
+}
+
+.persona-puesto {
+    margin-top: 3px;
+    font-size: 0.78rem;
+    line-height: 1.25;
+    color: var(--amarillo-rb);
+}
+
+/* Flechita del submenú */
+.persona-flecha {
+    position: absolute;
+    top: calc(14px + var(--org-foto) / 2 - 0.7rem);
+    right: 5px;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--rojo-texto);
+    transition: transform 0.25s ease;
+}
+
+.persona.abierto .persona-flecha {
+    transform: rotate(180deg);
+}
+
+.persona.abre-izq .persona-flecha {
+    right: auto;
+    left: 5px;
+    transform: rotate(180deg);
+}
+
+.persona.abre-izq.abierto .persona-flecha {
+    transform: none;
+}
+
+/* ── Submenú de correo ── */
+.persona-correo {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 8px);
+    width: 200px;
+    padding: 12px 14px;
+    background-color: var(--azul-profundo);
+    border: 1px solid var(--morado-borde);
+    border-top: 4px solid var(--amarillo-rb);
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.persona.abierto .persona-correo {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.persona.abre-izq .persona-correo {
+    left: auto;
+    right: calc(100% + 8px);
+    transform: translateX(10px);
+}
+
+.persona.abre-izq.abierto .persona-correo {
+    transform: none;
+}
+
+.persona-correo-titulo {
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--amarillo-rb);
+}
+
+.persona-correo a {
+    font-size: 0.85rem;
+    color: var(--blanco);
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.persona-correo a:hover,
+.persona-correo a:focus-visible {
+    color: var(--rojo-texto);
+}
+
+/* Hover solo en dispositivos con mouse (en táctil se usa el toque) */
+@media (hover: hover) {
+    .persona-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .persona-card:hover img {
+        filter: none;
+    }
+
+    .persona-card:hover .persona-info::before {
+        opacity: 1;
+    }
+}
+
+/* ── Escritorio: barra horizontal hacia los jefes + columnas verticales (como el boceto) ── */
+@media (min-width: 1081px) {
+    /* Nivel 1 → 2: barra horizontal con una bajada por jefe */
+    .org-arbol > li > ul {
+        --org-card: 200px;
+        --org-foto: 96px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        padding-top: 36px;
+    }
+
+    .org-arbol > li > ul::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        height: 36px;
+        border-left: 2px solid var(--org-linea);
+    }
+
+    .org-arbol > li > ul > li {
+        position: relative;
+        width: 308px;
+        padding: 36px 24px 0;
+    }
+
+    .org-arbol > li > ul > li::before,
+    .org-arbol > li > ul > li::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 50%;
+        width: 50%;
+        height: 36px;
+        border-top: 2px solid var(--org-linea);
+    }
+
+    .org-arbol > li > ul > li::after {
+        right: auto;
+        left: 50%;
+        border-left: 2px solid var(--org-linea);
+    }
+
+    .org-arbol > li > ul > li:first-child::before,
+    .org-arbol > li > ul > li:last-child::after {
+        border: 0 none;
+    }
+
+    .org-arbol > li > ul > li:last-child::before {
+        border-right: 2px solid var(--org-linea);
+        border-radius: 0 8px 0 0;
+    }
+
+    .org-arbol > li > ul > li:first-child::after {
+        border-radius: 8px 0 0 0;
+    }
+
+    /* Nivel 2 → 3: columna vertical sangrada a la derecha, tarjetas más compactas */
+    .org-arbol ul ul {
+        --org-card: 170px;
+        --org-foto: 64px;
+        align-self: flex-start;
+        margin-left: 60px;
+    }
+
+    .org-arbol ul ul > li {
+        position: relative;
+        display: block;
+        padding: 14px 0 0 28px;
+    }
+
+    .org-arbol ul ul > li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        border-left: 2px solid var(--org-linea);
+    }
+
+    .org-arbol ul ul > li:last-child::before {
+        bottom: auto;
+        height: 63px;
+    }
+
+    .org-arbol ul ul > li::after {
+        content: "";
+        position: absolute;
+        top: 63px;
+        left: 0;
+        width: 28px;
+        border-top: 2px solid var(--org-linea);
+    }
+
+    .org-arbol ul ul .persona-info {
+        min-height: 64px;
+    }
+}
+
+/* ── Móvil / tablet: árbol vertical, correo debajo de la tarjeta ── */
+@media (max-width: 1080px) {
+    .org-arbol {
+        --org-card: min(100%, 330px);
+        --org-foto: 64px;
+        display: block;
+    }
+
+    .org-arbol li {
+        display: block;
+    }
+
+    .org-arbol > li > ul {
+        margin-left: 42px;
+    }
+
+    .org-arbol ul ul {
+        margin-left: 14px;
+    }
+
+    .org-arbol ul > li {
+        position: relative;
+        padding: 14px 0 0 28px;
+    }
+
+    .org-arbol ul > li::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        border-left: 2px solid var(--org-linea);
+    }
+
+    .org-arbol ul > li:last-child::before {
+        bottom: auto;
+        height: 58px;
+    }
+
+    .org-arbol ul > li::after {
+        content: "";
+        position: absolute;
+        top: 58px;
+        left: 0;
+        width: 26px;
+        border-top: 2px solid var(--org-linea);
+    }
+
+    .persona-card {
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+
+    .persona-foto {
+        flex: none;
+        padding: 10px 0 10px 12px;
+    }
+
+    .persona-info {
+        flex: 1;
+        align-self: stretch;
+        min-height: 0;
+        padding: 10px 36px 10px 12px;
+        margin-left: 12px;
+        border-top: 0;
+        border-left: 1px solid var(--morado-borde);
+    }
+
+    .persona-flecha,
+    .persona.abre-izq .persona-flecha {
+        top: 50%;
+        right: 12px;
+        left: auto;
+        margin-top: -0.7rem;
+        transform: rotate(90deg);
+    }
+
+    .persona.abierto .persona-flecha,
+    .persona.abre-izq.abierto .persona-flecha {
+        transform: rotate(-90deg);
+    }
+
+    .persona-correo,
+    .persona.abre-izq .persona-correo {
+        position: static;
+        width: var(--org-card);
+        max-height: 0;
+        margin-top: 0;
+        padding: 0 14px;
+        overflow: hidden;
+        border-width: 0;
+        transform: none;
+        transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease, visibility 0.25s;
+    }
+
+    .persona.abierto .persona-correo {
+        max-height: 110px;
+        margin-top: 8px;
+        padding: 12px 14px;
+        border-width: 1px;
+        border-top-width: 4px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .persona-card,
+    .persona-foto img,
+    .persona-info::before,
+    .persona-flecha,
+    .persona-correo {
         transition: none;
     }
 }

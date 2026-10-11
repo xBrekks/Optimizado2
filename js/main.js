@@ -142,6 +142,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ============================================================
+       5. ORGANIGRAMA (solo nosotros.html): submenú de correo
+       ============================================================ */
+    const personas = document.querySelectorAll(".persona");
+
+    if (personas.length > 0) {
+        const cerrarPersonas = () => {
+            personas.forEach((p) => {
+                p.classList.remove("abierto");
+                p.querySelector(".persona-card").setAttribute("aria-expanded", "false");
+            });
+        };
+
+        personas.forEach((persona) => {
+            const tarjeta = persona.querySelector(".persona-card");
+            tarjeta.addEventListener("click", () => {
+                const abrir = !persona.classList.contains("abierto");
+                cerrarPersonas(); // solo un submenú abierto a la vez
+                persona.classList.toggle("abierto", abrir);
+                tarjeta.setAttribute("aria-expanded", String(abrir));
+            });
+        });
+
+        // Cerrar al tocar fuera o con Escape
+        document.addEventListener("click", (e) => {
+            if (!e.target.closest(".persona")) cerrarPersonas();
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") cerrarPersonas();
+        });
+    }
+
+    /* ============================================================
        4. SCROLLTELLING UNIVERSAL (animaciones al hacer scroll)
        ============================================================ */
     const elementosAnimables = document.querySelectorAll(
